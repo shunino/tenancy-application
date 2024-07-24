@@ -1,0 +1,59 @@
+/* src/components/RoomCard.css */
+.ml{
+  margin-left: 25px;
+}
+.stamp1 {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  transform: rotate(-20deg);
+  background-color: rgba(255, 0, 0, 0.1);
+  color: red;
+  font-size: 36px;
+  font-weight: bold;
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+}
+
+.room-card {
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  position:relative;
+}
+
+.room-card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.room-card h2 {
+  margin: 20px 0 10px;
+}
+
+.room-card h3 {
+  margin: 10px 0;
+}
+
+.room-card p {
+  margin: 10px 0;
+}
+
+.room-card button {
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: none;
+  background-color: #ffd700;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.room-card button:hover {
+  background-color: #ffbf00;
+}

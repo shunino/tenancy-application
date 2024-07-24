@@ -1,0 +1,61 @@
+.contract-box {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.stamp {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  transform: rotate(-20deg);
+  background-color: rgba(255, 0, 0, 0.1);
+  color: red;
+  font-size: 36px;
+  font-weight: bold;
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.payment-date {
+  color: red;
+  font-weight: bold;
+}
+
+.terms {
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.terms h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  background-color: #d8d8d8;
+  display: inline-block;
+  padding: 2px 5px;
+}
+
+.terms h3 {
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.terms p {
+  margin: 5px 0;
+}
