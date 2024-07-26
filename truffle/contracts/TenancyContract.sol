@@ -112,13 +112,13 @@ contract TenancyContract {
     }
 
     function dailyAction(uint256 curTime) public onlyLandlord oncePerDay {
-        // 房东每日执行的操作
+        
         lastExecutionTime = curTime;
-        // 在这里添加具体的操作
+        
 
         for (uint i = 0; i < rentInfos.length; i++) {
             if (rentInfos[i].endTime < lastExecutionTime) {
-                updateRentInfo(rentInfos[i].rentId); // 已经到期，更新此租房信息
+                updateRentInfo(rentInfos[i].rentId); // Expired, update this rental information
             }
         }
         
@@ -280,14 +280,14 @@ contract TenancyContract {
             isAvailable: true,
             roomType: roomType,
             status: "Vacant",
-            addressInfo:addressInfo',
+            addressInfo:addressInfo,
             location:location,
             description:description
         }));
     }
 
     function updateRoomState(uint256 roomId, bool state) public {
-        rooms[roomId-1].isAvailable = state
+        rooms[roomId-1].isAvailable = state;
     }
 
     function creatRequest(string memory roomInfo, uint256 TenantId, string memory requestType, string memory description,uint256 createTime) public {

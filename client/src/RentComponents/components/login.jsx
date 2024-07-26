@@ -67,7 +67,8 @@ function Login() {
     console.log('Form submitted:', formValues);
     const curdate = Date.now();
     await contract.methods.addTenant(accounts[0],curdate, formValues.name, formValues.email, formValues.phone, formValues.nationality, formValues.passport).send({ from: accounts[0] });
-    setLogin(true)
+    // setLogin(true)
+    window.location.reload()
   };
 
 

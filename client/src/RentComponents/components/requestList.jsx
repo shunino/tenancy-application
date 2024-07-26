@@ -32,6 +32,13 @@ function RequestList({ userInfo }) {
     return `${year}-${month}-${day}`;
   };
 
+  const handleRequest = async (re) => {
+    const curTime = Date.now();
+    await contract.methods.modifyRequest(re.requestId, curTime).send({ from: accounts[0],gas:300000 });
+    alert('solving the request successfully!')
+    window.location.reload()
+  };
+
   return (
     <div className="common-box">
       <h1>Request List</h1>
@@ -40,7 +47,6 @@ function RequestList({ userInfo }) {
             <Table striped bordered hover size="sm">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>RoomInfo</th>
                   <th>requestType</th>
                   <th>description</th>
@@ -50,23 +56,16 @@ function RequestList({ userInfo }) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td colSpan={2}>Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+                {requestList.map(request => (
+                   <tr>
+                    <td>{request.roomInfo}</td>
+                    <td>{request.requestType}</td>
+                    <td>{request.description}</td>
+                    <td>{formatDate(request.createTime)}</td>
+                    <td>{request.isResolved ? 'solved' : 'waiting solving'}</td>
+                    <td>{request.isResolved ? ('solved time: '+formatDate(request.endTime)) : (<button onClick={() => handleRequest(request)} >handling the request</button>) }</td>
+                  </tr>
+                  ))}
               </tbody>
             </Table>
           </div>

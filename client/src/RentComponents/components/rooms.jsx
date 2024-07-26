@@ -278,42 +278,46 @@ const Rooms = ({ info,userType }) => {
                   {rooms.map(room => (
                     <RoomCard userType={userType} key={room.roomId} boolRoom={handleShow} room={room} />
                   ))}
-                  <div className="room-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Room" />
-                    <p>Address:<input
-                      type="text"
-                      name="addressInfo"
-                      value={formValues.addressInfo}
-                      onChange={handleInputChange}
-                    /></p>
-                          <p>Block:<input
-                      type="text"
-                      name="location"
-                      value={formValues.location}
-                      onChange={handleInputChange}
-                    /></p>
-                          <p>Room type:<input
-                      type="text"
-                      name="roomType"
-                      value={formValues.roomType}
-                      onChange={handleInputChange}
-                    /></p>
-                          <p>description:<input
-                      type="text"
-                      name="description"
-                      value={formValues.description}
-                      onChange={handleInputChange}
-                    /></p>
-                          <p>Price: £<input
-                      type="text"
-                      name="rent"
-                      value={formValues.rent}
-                      onChange={handleInputChange}
-                    /> per week</p>
-                    <Button size="lg"  type="primary" onClick={() => addRoom()}>
-                      addRoom
-                    </Button> 
-                  </div>
+                  {userType==2 ? 
+                    <div className="room-card">
+                      <img src="https://via.placeholder.com/400x200" alt="Room" />
+                      <p>Address:<input
+                        type="text"
+                        name="addressInfo"
+                        value={formValues.addressInfo}
+                        onChange={handleInputChange}
+                      /></p>
+                            <p>Block:<input
+                        type="text"
+                        name="location"
+                        value={formValues.location}
+                        onChange={handleInputChange}
+                      /></p>
+                            <p>Room type:<input
+                        type="text"
+                        name="roomType"
+                        value={formValues.roomType}
+                        onChange={handleInputChange}
+                      /></p>
+                            <p>description:<input
+                        type="text"
+                        name="description"
+                        value={formValues.description}
+                        onChange={handleInputChange}
+                      /></p>
+                            <p>Price: £<input
+                        type="text"
+                        name="rent"
+                        value={formValues.rent}
+                        onChange={handleInputChange}
+                      /> per week</p>
+                      <Button size="lg"  type="primary" onClick={() => addRoom()}>
+                        addRoom
+                      </Button> 
+                    </div>
+                    : null
+                  }
+                  
                 </div>
         </div>
     </div>
