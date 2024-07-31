@@ -95,13 +95,7 @@ contract TenancyContract {
         _;
     }
 
-    modifier onlyTenant(uint256 roomId) {
-        bool isTenant = false;
-        require(isTenant, "Only the tenant of this room can perform this action");
-        _;
-    }
-
-     modifier oncePerDay() {
+    modifier oncePerDay() {
         require(block.timestamp >= lastExecutionTime + 1 days, "Action can only be performed once per day");
         _;
     }
@@ -111,7 +105,7 @@ contract TenancyContract {
         _;
     }
 
-    function dailyAction(uint256 curTime) public onlyLandlord oncePerDay {
+    function dailyAction(uint256 curTime) public onlyLandlord {
         
         lastExecutionTime = curTime;
         
@@ -125,6 +119,22 @@ contract TenancyContract {
     }
 
     function initAgreement() public onlyOnce {
+        // aggrement for land lord
+        //1.你需要每天更新日常任务，如果你没有更新，所带来的损失你自行承担。
+        //2.你需要保证你提供的信息都是真实且合法的，
+        //如果你提供了的任何虚假的信息，需要赔偿租户所遭受的所有损失并承担相应的法律责任
+        //3.对于租户提交的合理请求，你必须3天之内解决。
+        //如果你延误了或者忽略了此请求，你需要赔偿租户所造成的所有损失
+        //4.你自愿同意上面的所有内容，并同意去激活此合同的所有代码
+        
+
+        //aggrement for tenant
+        //1.你需要按时的付费，如果你没有按预定时间付费。
+        //房东有权利驱赶你并丢弃你的所有物品
+        //2.你需要保证房间内的所有设施的完整性和整洁性，如果你破坏了房间内的任何设施
+        //所造成的损失，你需要2倍数的赔偿给房东
+        //
+
         isInitialized = true;
 
         // Initialize the agreement
@@ -286,7 +296,7 @@ contract TenancyContract {
         }));
     }
 
-    function updateRoomState(uint256 roomId, bool state) public {
+    function updateRoomState(uint256 roomId, bool state) public onlyLandlord {
         rooms[roomId-1].isAvailable = state;
     }
 
@@ -441,14 +451,27 @@ contract TenancyContract {
         return agreements;
     }
 
-    function getAllRooms() public view returns (Room[] memory) {
+    function getAllRooms() public onlyLandlord view returns (Room[] memory) {
         return rooms;
     }
 
-    function getAllRequest() public view returns (MaintenanceRequest[] memory) {
+    function getAllRequest() public onlyLandlord view returns (MaintenanceRequest[] memory) {
         return maintenanceRequests;
     }
     
+    function isActivate() public onlyLandlord view returns (bool) {
+        for (uint i = 0; i < tenants.length; i++) {
+            if (tenants[i].tenantAddress == msg.sender) {
+                return true; // 找到匹配的租户地址，返回true
+            }
+        }
+        return false; // 没有找到匹配的租户地址，返回false
+    }
+
+    //test
+    function getallTe() public view returns (RentInfo[] memory) {
+        return rentInfos;
+    }
     //test
     function getallTe() public view returns (RentInfo[] memory) {
         return rentInfos;

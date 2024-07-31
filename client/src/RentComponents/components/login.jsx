@@ -78,7 +78,7 @@ function Login() {
         (
         isLogin ? <MainInfo userInfo={userInfo} userType={userType}></MainInfo> : 
         <div className={styles.loginContainer}>
-          <h2>Rigester</h2>
+          <h2>{userType==1 ? 'Rigester' : 'Rigester to Activate'}</h2>
           <form onSubmit={handleSubmit}>
            <div className={styles.formGroup}>
               <label htmlFor="name">name *</label>
