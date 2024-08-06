@@ -12,7 +12,7 @@ function RequestList({ userInfo }) {
 
   useEffect(() => {
     const init = async () => {
-      const requestArr = await contract.methods.getAllRequest().call();
+      const requestArr = await contract.methods.getAllRequest().call({ from: accounts[0]});
       setRequestList(requestArr)
       console.log('requestArr',requestArr)
     };
@@ -62,8 +62,8 @@ function RequestList({ userInfo }) {
                     <td>{request.requestType}</td>
                     <td>{request.description}</td>
                     <td>{formatDate(request.createTime)}</td>
-                    <td>{request.isResolved ? 'solved' : 'waiting solving'}</td>
-                    <td>{request.isResolved ? ('solved time: '+formatDate(request.endTime)) : (<button onClick={() => handleRequest(request)} >handling the request</button>) }</td>
+                    <td style={{'color':'red'}}>{request.isResolved ? 'solved' : 'sloving'}</td>
+                    <td>{request.isResolved ? ('solved time: '+formatDate(request.endTime)) : (<Button onClick={() => handleRequest(request)} >handling the request</Button>) }</td>
                   </tr>
                   ))}
               </tbody>

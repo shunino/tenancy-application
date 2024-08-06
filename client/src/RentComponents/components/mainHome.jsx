@@ -52,14 +52,14 @@ function MainHome({ changeType,info,chufa,rentInfo,setRentInfo }) {
 
             <div className="card">
               <h2>hello,{info.name}</h2>
-              <div>your room key is <b>{rentInfo.uniqueKey}</b>，using the key to check in</div>
+              <h3>using your account address to check in offline</h3>
               <div className="he1">you have book the room:<div className="he2">{rentInfo.description}</div></div>
               <div className="he1">Price:<div className="he2">£125.00 per week</div></div>
-              <div className="he1">Check In Date::<div className="he2">{formatDate(rentInfo.createTime)}</div></div>
+              <div className="he1">Check In Date:<div className="he2">{formatDate(rentInfo.createTime)}</div></div>
               <div className="he1">Check Out Date:<div className="he2">{formatDate(rentInfo.endTime)}</div></div>
               <div className="he1">total prices:<div className="he2">£{rentInfo.payTotal}</div></div>
-              {rentInfo.nextTime<=rentInfo.endTime ? <div>the latest date of payment: <div className="emphasize">{formatDate(rentInfo.nextTime)}</div></div> : <div style={{'fontSize':'28px','color':'red'}}>you have paid all rent!</div>}
-              { rentInfo.nextTime<=rentInfo.endTime ? <button onClick={() => changeType(3)}>payment in advance</button> : null}
+              {rentInfo.nextTime<rentInfo.endTime ? <div>the latest date of payment: <div className="emphasize">{formatDate(rentInfo.nextTime)}</div></div> : <div style={{'fontSize':'28px','color':'red'}}>you have paid all rent!</div>}
+              { rentInfo.nextTime<rentInfo.endTime ? <button onClick={() => changeType(3)}>payment in advance</button> : null}
             </div>
             :
             <div className="card">

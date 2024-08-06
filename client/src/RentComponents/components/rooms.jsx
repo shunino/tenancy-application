@@ -22,10 +22,15 @@ const Rooms = ({ info,userType }) => {
   const [curRoom, setCurroom] = useState({});
   const [date, setDate] = useState(null);
 
-
+  const [agreementArr, setAgreementArr] = React.useState([])
   useEffect(() => {
     const init = async () => {
       const commonArr = await contract.methods.getAllRooms().call();
+      const uAgreementArr = await contract.methods.getAgreementTermsforuser().call({
+            from: accounts[0],
+      });
+      setAgreementArr(uAgreementArr)
+
       setRooms(commonArr)
     };
 
@@ -83,7 +88,7 @@ const Rooms = ({ info,userType }) => {
   const handleShow = (broom1) => {
     const broom = { ...broom1 };
     broom.createTime = new Date().toISOString().split('T')[0];
-    broom.nextTime = addDays(broom.createTime, 28);
+    broom.nextTime = new Date().toISOString().split('T')[0];
     broom.endTime = addDays(broom.createTime, 28);
     broom.nextPay = 500;
     broom.payTotal = 500;
@@ -165,46 +170,13 @@ const Rooms = ({ info,userType }) => {
               </Form>
             </div>,
     f2: () => <div style={{height:'100%',width:'100%'}}>
-        <div className="t-title">Property Details</div>
-            <div className="t-content">
-              - **Address of the Property**: [Full Address of the Rented Property]<br />
-              - **Description of the Property**: [Description of the Property, e.g., "2-bedroom flat on the 3rd floor"]
-            </div>
-            <div className="t-title">Tenancy Term</div>
-            <div className="t-content">
-              - **Start Date**: [DD/MM/YYYY]<br />
-              - **End Date**: [DD/MM/YYYY] (if a fixed-term tenancy)<br />
-              - **Type of Tenancy**: [Assured Shorthold Tenancy (AST) / Periodic Tenancy]
-            </div>
-            <div className="t-title">Maintenance and Repairs</div>
-            <div className="t-content">
-              - **Landlord's Responsibilities**:<br />
-              - Ensure the property is in good repair at the start of the tenancy.<br />
-              - Maintain the structure and exterior of the property.<br />
-              - Ensure that gas, electricity, and water supplies are safe and in working order.<br />
-              <br />
-            - **Tenant's Responsibilities**:<br />
-              - Keep the property in good condition and use it responsibly.<br />
-              - Promptly report any issues or damages to the landlord.<br />
-              - Allow the landlord or their representatives reasonable access to the property for inspections or repairs, with at least 24 hours' notice.
-            </div>
-            <div className="t-title">Tenant's Obligations</div>
-            <div className="t-content">
-              Tenant's Obligations
-            </div>
-            <div className="t-title">Landlord's Obligations</div>
-            <div className="t-content">
-              Landlord's Obligations
-            </div>
-            <div className="t-title"> Additional Clauses</div>
-            <div className="t-content">
-              Additional Clauses
-            </div>
-            <div className="t-title"> Additional Clauses</div>
-            <div className="t-content">
-                the landlord have agreed the aggreement.
-                Now only you agree those terms
-            </div>
+        <div className='agree-box'>
+          {agreementArr.map( (item, key) => (
+                <div key={key} className='agree-list'>
+                  {item}
+                </div>
+              ))}
+          </div>
     </div>,
   };
 
@@ -274,38 +246,38 @@ const Rooms = ({ info,userType }) => {
       </Modal>
       <div className="content1">
                 
-                <div className="left-panel">
+                <div className="left-panel" style={{'overflow':'auto'}}>
                   {rooms.map(room => (
                     <RoomCard userType={userType} key={room.roomId} boolRoom={handleShow} room={room} />
                   ))}
                   {userType==2 ? 
                     <div className="room-card">
                       <img src="https://via.placeholder.com/400x200" alt="Room" />
-                      <p>Address:<input
+                      <p>Address *:<input
                         type="text"
                         name="addressInfo"
                         value={formValues.addressInfo}
                         onChange={handleInputChange}
                       /></p>
-                            <p>Block:<input
+                            <p>Block *:<input
                         type="text"
                         name="location"
                         value={formValues.location}
                         onChange={handleInputChange}
                       /></p>
-                            <p>Room type:<input
+                            <p>Room type *:<input
                         type="text"
                         name="roomType"
                         value={formValues.roomType}
                         onChange={handleInputChange}
                       /></p>
-                            <p>description:<input
+                            <p>description *:<input
                         type="text"
                         name="description"
                         value={formValues.description}
                         onChange={handleInputChange}
                       /></p>
-                            <p>Price: £<input
+                            <p>Price *: £<input
                         type="text"
                         name="rent"
                         value={formValues.rent}

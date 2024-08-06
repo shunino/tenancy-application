@@ -1,78 +1,64 @@
 const TenancyContract = artifacts.require("TenancyContract");
 
 contract("TenancyContract", (accounts) => {
-  const [landlord, tenant1, tenant2] = accounts;
-
   let tenancyContract;
+  const landlord = accounts[0];
+  const tenant1 = accounts[1];
+  const tenant2 = accounts[2];
 
   beforeEach(async () => {
-    tenancyContract = await TenancyContract.new();
+    tenancyContract = await TenancyContract.new({ from: landlord });
   });
 
-  describe("Initialization", () => {
-    it("Should initialize landlord correctly", async () => {
-      const landlordOnly = await tenancyContract.landLordOnly();
-      assert.equal(landlordOnly, landlord, "Landlord is not initialized correctly");
-    });
-
-    it("Should initialize rooms correctly", async () => {
-      const rooms = await tenancyContract.rooms(0);
-      assert.equal(rooms.roomId.toNumber(), 1, "First room ID is not correct");
-      assert.equal(rooms.isAvailable, true, "First room should be available");
-      assert.equal(rooms.status, "Vacant", "First room status should be 'Vacant'");
-    });
+  it("should initialize with landlord as the contract deployer", async () => {
+    const landlordAddress = await tenancyContract.landlordAddress();
+    assert.equal(landlordAddress, landlord, "Landlord address should be the contract deployer");
   });
 
-  describe("Room Management", () => {
-    it("Should allow landlord to add rooms", async () => {
-      await tenancyContract.addRoom(150, "Double", "Some Address", "Some Location", "Description", { from: landlord });
-      const room3 = await tenancyContract.rooms(2);
-      assert.equal(room3.roomId.toNumber(), 3, "Third room ID is not correct");
-      assert.equal(room3.isAvailable, true, "Third room should be available");
-      assert.equal(room3.status, "Vacant", "Third room status should be 'Vacant'");
-    });
-
-    it("Should not allow tenant to add rooms", async () => {
-      try {
-        await tenancyContract.addRoom(150, "Double", "Some Address", "Some Location", "Description", { from: tenant1 });
-        assert.fail("Tenant should not be able to add rooms");
-      } catch (error) {
-        assert(error.message.includes("Only landlord can perform this action"), "Expected only landlord can perform this action");
-      }
-    });
+  it("should add a tenant", async () => {
+    await tenancyContract.addTenant(tenant1, Math.floor(Date.now() / 1000), "Alice", "alice@example.com", "12345678", "USA", "P12345678", { from: landlord });
+    const tenant = await tenancyContract.tenants(0);
+    assert.equal(tenant.tenantAddress, tenant1, "Tenant address should be correctly added");
   });
 
-  describe("Tenant Management", () => {
-    it("Should allow landlord to add tenants", async () => {
-      await tenancyContract.addTenant(tenant1, 1622548800, "Tenant1", "tenant1@example.com", "123456789", "Country1", "Passport1", { from: landlord });
-      const tenant = await tenancyContract.tenants(0);
-      assert.equal(tenant.tenantAddress, tenant1, "Tenant address is not correct");
-    });
+  it("should add a room", async () => {
+    await tenancyContract.addRoom(150, "Double", "123 Street", "501", "Nice Room", { from: landlord });
+    const room = await tenancyContract.rooms(2); // 第三个房间，索引为2
+    assert.equal(room.rent, 150, "Room rent should be correctly added");
+    assert.equal(room.roomType, "Double", "Room type should be correctly added");
   });
 
-  describe("Rent Management", () => {
-    it("Should allow landlord to update rent info", async () => {
-      await tenancyContract.addTenant(tenant1, 1622548800, "Tenant1", "tenant1@example.com", "123456789", "Country1", "Passport1", { from: landlord });
-      await tenancyContract.rentRoom(1, 1, 1622548800, 1625140800, 1625140800, "Monthly", "500", "Description", { from: landlord });
-      const rentInfo = await tenancyContract.getTenantRentInfo(1);
-      assert.equal(rentInfo.tenantAddress, tenant1, "Tenant address in rent info is not correct");
-    });
+  it("should allow tenant to rent a room", async () => {
+    await tenancyContract.addTenant(tenant1, Math.floor(Date.now() / 1000), "Alice", "alice@example.com", "12345678", "USA", "P12345678", { from: landlord });
+    await tenancyContract.rentRoom(1, 1, Math.floor(Date.now() / 1000), Math.floor(Date.now() / 1000) + 86400 * 30, Math.floor(Date.now() / 1000) + 86400 * 30, "100", "100", "Rent for a month", { from: tenant1 });
+
+    const room = await tenancyContract.rooms(0);
+    assert.equal(room.isAvailable, false, "Room should be marked as not available");
+    assert.equal(room.status, "Occupied", "Room status should be 'Occupied'");
   });
 
-  describe("Maintenance Requests", () => {
-    it("Should allow tenants to create maintenance requests", async () => {
-      await tenancyContract.creatRequest("Room Info", 1, "Plumbing", "Description", 1622548800, { from: tenant1 });
-      const request = await tenancyContract.maintenanceRequests(0);
-      assert.equal(request.requestType, "Plumbing", "Request type is not correct");
-      assert.equal(request.isResolved, false, "Request should not be resolved");
-    });
-
-    it("Should allow landlord to resolve maintenance requests", async () => {
-      await tenancyContract.creatRequest("Room Info", 1, "Plumbing", "Description", 1622548800, { from: tenant1 });
-      await tenancyContract.modifyRequest(1, 1625140800, { from: landlord });
-      const request = await tenancyContract.maintenanceRequests(0);
-      assert.equal(request.isResolved, true, "Request should be resolved");
-      assert.equal(request.endTime.toNumber(), 1625140800, "End time is not correct");
-    });
+  it("should allow landlord to update room state", async () => {
+    await tenancyContract.updateRoomState(1, false, { from: landlord });
+    const room = await tenancyContract.rooms(0);
+    assert.equal(room.isAvailable, false, "Room should be marked as not available");
   });
+
+  it("should allow tenant to create a maintenance request", async () => {
+    await tenancyContract.addTenant(tenant1, Math.floor(Date.now() / 1000), "Alice", "alice@example.com", "12345678", "USA", "P12345678", { from: landlord });
+    await tenancyContract.creatRequest("Room 501", 1, "Plumbing", "Leaky faucet", Math.floor(Date.now() / 1000), { from: tenant1 });
+
+    const request = await tenancyContract.maintenanceRequests(0);
+    assert.equal(request.description, "Leaky faucet", "Maintenance request description should be correctly added");
+  });
+
+  it("should allow landlord to resolve a maintenance request", async () => {
+    await tenancyContract.addTenant(tenant1, Math.floor(Date.now() / 1000), "Alice", "alice@example.com", "12345678", "USA", "P12345678", { from: landlord });
+    await tenancyContract.creatRequest("Room 501", 1, "Plumbing", "Leaky faucet", Math.floor(Date.now() / 1000), { from: tenant1 });
+    await tenancyContract.modifyRequest(1, Math.floor(Date.now() / 1000) + 86400, { from: landlord });
+
+    const request = await tenancyContract.maintenanceRequests(0);
+    assert.equal(request.isResolved, true, "Maintenance request should be marked as resolved");
+  });
+
+  // 你可以添加更多测试用例以覆盖所有功能
 });

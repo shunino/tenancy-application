@@ -1,4 +1,5 @@
 /* Login.module.css */
+
 .emphasize{
 	font-size: 24px;
 	color: red;
@@ -8,7 +9,7 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	font-size: 16px;
+	font-size: 18px;
 	.header {
 	  background-color: #4a4a4a;
 	  color: white;
@@ -75,6 +76,7 @@
 		  display: block;
 		  text-align: left;
 		  margin-bottom: 5px;
+		  color: red;
 		}
 
 		.formGroup input {

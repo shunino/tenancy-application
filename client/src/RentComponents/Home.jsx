@@ -32,11 +32,6 @@ function Home({ isVisible, connectMeta }) {
         <Modal.Body>
           <ContractBox></ContractBox>
         </Modal.Body>
-        {/*<Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>*/}
       </Modal>
       <header className={styles.header}>
         <div className={styles.logo}>
@@ -54,7 +49,7 @@ function Home({ isVisible, connectMeta }) {
       </header>
       <main className={styles.main}>
         { !isVisible ? <div className={styles.buttonBg}>
-            <Button size="lg" className={styles.loginButton} variant="primary" onClick={connectMeta}>connectting the metaMask</Button> 
+            <Button size="lg" className={styles.loginButton} variant="primary" onClick={connectMeta}>Connecting the MetaMask</Button> 
           </div>
          : <Login></Login>
       }

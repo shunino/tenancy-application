@@ -8,14 +8,14 @@ const ContractBox = () => {
   
   const [hasRent, setHasRent] = React.useState(false);
   const [rentInfo, setRentInfo] = React.useState(null);
-  const [aggreements, setAggreements] = React.useState(null);
+  const [agreementArr, setAggreements] = React.useState(null);
 
   useEffect(() => {
     const init = async () => {
       //get aggreements
-      const aggreements = await contract.methods.getAgreement().call();
-      //console.log('myaggreements',aggreements)
-      setAggreements(aggreements)
+      const UserAgreements = await contract.methods.getAgreementTermsforuser().call();
+      console.log('UserAggreements',UserAgreements)
+      setAggreements(UserAgreements)
       //
       const curTime = Date.now();
       const rentInfos = await contract.methods.hasRentInfo(accounts[0],curTime).call();
@@ -44,19 +44,14 @@ const ContractBox = () => {
   const TermsComponent = () => {
     return (
       <div className="terms">
-        <h2>{aggreements.title}</h2>
-        <div>
-          {aggreements.sections.map(term => (
-            <div key={term.id}>
-              <h1>{term.title}</h1>
-              <div>
-                {term.points.map(term1 => (
-                  <p key={term1.id}>{term1}</p>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2>Tenancy Agreement</h2>
+        <div className='agree-box'>
+          {agreementArr.map( (item, key) => (
+                <div key={key} className='agree-list'>
+                  {item}
+                </div>
+              ))}
+          </div>
       </div>
     );
   };

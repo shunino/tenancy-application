@@ -82,13 +82,19 @@ function Login({rentInfo}) {
         </Alert>*/}
         <div className={styles.loginContainer} style={{width:'600px'}}>
           <h2>payments</h2>
-          <form onSubmit={handleSubmit}>
-           <div className={styles.formGroup}>
-              <label htmlFor="pay">the next deadline of payment : <div style={{fontSize:'24px',color:'red'}}>{formatDate1(rentInfo.nextTime)}</div></label>
-              <label htmlFor="pay">the amount of payment : <div style={{fontSize:'24px',color:'red'}}>£{rentInfo.nextPay}</div></label>
-            </div>
-            <Button type="submit" size="lg">pay Now</Button>
-          </form>
+          {rentInfo.nextTime<rentInfo.endTime ? 
+
+            <form onSubmit={handleSubmit}>
+             <div className={styles.formGroup}>
+                <label htmlFor="pay">the next deadline of payment : <div style={{fontSize:'24px',color:'red'}}>{formatDate1(rentInfo.nextTime)}</div></label>
+                <label htmlFor="pay">the amount of payment : <div style={{fontSize:'24px',color:'red'}}>£{rentInfo.nextPay}</div></label>
+              </div>
+              <Button type="submit" size="lg">pay Now</Button>
+            </form>
+            :
+            <div style={{'fontSize':'28px','color':'red'}}>you have paid all rent!</div>
+          }
+          
         </div>
     </div>
     

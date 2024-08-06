@@ -13,6 +13,8 @@ import Request from './request'
  
 import LandHome from './landHome'
 import RequestList from './requestList'
+import SearchInfo from './searchInfo'
+
 
 function MainInfo({ userInfo, userType }) {
   const { state: { contract, accounts } } = useEth();
@@ -55,7 +57,9 @@ function MainInfo({ userInfo, userType }) {
         case 5:
           return <LandHome userInfo={userInfo}  />;
         case 6:
-          return <RequestList userInfo={userInfo}  />; 
+          return <RequestList userInfo={userInfo}  />;
+        case 7:
+          return <SearchInfo userInfo={userInfo}  />;
         default:
           return <div>Default Component</div>;
     }
@@ -66,7 +70,7 @@ function MainInfo({ userInfo, userType }) {
         <div className="profile-section">
           <div className="profile-image">{userInfo.name}</div>
           <div className="profile-info" >
-            <div>Your ID: {userInfo.tenantId}</div>
+            {/*<div>Your ID: {userInfo.tenantId}</div>*/}
             <div>email: {userInfo.email}</div>
             <div>phone: {userInfo.phone}</div>
             <div>createTime: {formatDate(userInfo.createTime)}</div>
@@ -81,8 +85,9 @@ function MainInfo({ userInfo, userType }) {
           </ul> : null}
           {userType==2 ? <ul>
             <li onClick={() => changeType(5)}>Dashboard</li>
-            <li onClick={() => changeType(2)}>my rooms</li>
-            <li onClick={() => changeType(6)}>request</li>
+            <li onClick={() => changeType(2)}>My rooms</li>
+            <li onClick={() => changeType(6)}>Request</li>
+            <li onClick={() => changeType(7)}>check in </li>
           </ul> : null}
         </nav>
       </aside>

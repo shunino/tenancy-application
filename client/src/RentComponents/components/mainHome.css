@@ -1,5 +1,18 @@
 /* src/Dashboard.css */
-
+.aggree-box{
+  margin-bottom: 10px;
+}
+.agreeText{
+  color: red;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.agree-list{
+  margin-bottom: 15px;
+  padding-bottom:5px ;
+  font-size: 18px;
+  border-bottom: 1px dashed  grey;
+}
 .he1{
   font-size: 18px;
   display: flex;
@@ -112,6 +125,13 @@
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
+        .c-info{
+          font-size: 22px;
+          b{
+            color: red;
+            font-size: 28px;
+          }
+        }
       }
 
       .card img {

@@ -32,7 +32,8 @@ function LandHome({ userInfo }) {
   }, [contract]);
 
   const updateTasks = async () => {
-    const curdate = Date.now() + 2419200*1000;
+    // const curdate = Date.now() + 2419200*1000;
+    const curdate = Date.now();
     await contract.methods.dailyAction(curdate).send({ from: accounts[0],gas:300000 });
     alert('update successful')
     window.location.reload()
@@ -53,8 +54,8 @@ function LandHome({ userInfo }) {
         <div className="content">
           <div className="right-panel">
             <div className="card">
-              <h2>hello,{userInfo.name}</h2>
-              <div>your have {roomSum} rooms, and {roomSumA} rooms have been rented</div>
+              <h2>hello, {userInfo.name} !</h2>
+              <div className="c-info">your have <b>{roomSum}</b> rooms, and <b>{roomSumA}</b> rooms have been rented</div>
               <div className="he1"><button onClick={() => updateTasks()}>executiving daily tasks</button></div>
             </div>
           </div>

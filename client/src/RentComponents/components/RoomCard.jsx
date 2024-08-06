@@ -22,10 +22,10 @@ const RoomCard = ({ room, boolRoom,userType }) => {
     <div className="room-card">
       { room.isAvailable ? null :  <div className="stamp1">Not available!</div> }
       <img src="https://via.placeholder.com/400x200" alt="Room" />
-      <p>Address:{}</p>
-      <p>Block:{room.location}</p>
-      <p>Room type:{room.roomType}</p>
-      <p>Price: £125.00 per week</p>
+      <p><b>Address:</b> {room.addressInfo}</p>
+      <p><b>Block:</b>{room.location}</p>
+      <p><b>Room type:</b>{room.roomType}</p>
+      <p><b>Price: </b>£125.00 per week</p>
       { (room.isAvailable && userType==1) ? <button onClick={() => boolRoom(room)} >book the room</button> : null }
       { userType==2 ? <div><button onClick={() => changeType(room,1)} >close</button> <br /><button className="ml" onClick={() => changeType(room,2)} >open</button></div> : null}
     </div>
