@@ -93,7 +93,7 @@ contract TenancyContract {
         
     }
     string[] private lordAgreementTerms;
-    function getAgreementTermsforlord() public returns (string[] memory) {
+    function getAgreementTermsforlord() public  returns (string[] memory) {
         // 先清空数组
         delete lordAgreementTerms;
         lordAgreementTerms.push("1. The landlord must update daily tasks every day. If there are no updates, the landlord will bear any resulting losses.");

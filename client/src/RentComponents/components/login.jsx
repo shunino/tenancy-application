@@ -38,6 +38,19 @@ function Login() {
 
   }, [contract]);
 
+  
+  // const handleEncrypt = () => {
+  //   const secretKey = formValues.name+accounts[0];
+  //   const ciphertext = CryptoJS.AES.encrypt(formValues.passport, secretKey).toString();
+  //   setEncryptedText(ciphertext);
+  // };
+
+  // const handleDecrypt = () => {
+  //   const secretKey = formValues.name+accounts[0];
+  //   const bytes = CryptoJS.AES.decrypt(formValues.passport, secretKey);
+  //   const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  //   setDecryptedText(originalText);
+  // };
 
   // code
   const [formValues, setFormValues] = useState({
