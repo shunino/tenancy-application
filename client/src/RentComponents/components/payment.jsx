@@ -11,11 +11,11 @@ function Login({rentInfo}) {
 
   useEffect(() => {
     if(contract){
-      // 监听 RentPaid 事件
+      // Monitor the RentPaid event
       contract.events.RentPaid({})
         .on('data', (event) => {
             console.log('RentPaid Event:', event);
-            // 在这里处理支付成功的逻辑
+            // if successful
             alert('payment successful!')
         })
         .on('error', (error) => {

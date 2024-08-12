@@ -1,39 +1,32 @@
-# React Truffle Box
+## Deployment Environment Configuration
 
-This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
+# Ganache: Install Ganache, download Ganache from the Truffle Suite website
+(https://trufflesuite.com/ganache/), Download and install the version for the corre-
+sponding operating system (Windows, macOS, Linux).
 
-## Installation
+# MetaMask: MetaMask is a browser extension wallet that supports Chrome, Firefox,
+Brave, and Edge browsers. Visit [MetaMask official website](https://metamask.io/)
+and select an extension based on the browser and install it.
 
-First ensure you are in an empty directory.
+# Node.js (npm): npm is integrated in node.js, so access the official Node.js website.
+Select the Node.js version for the corresponding operating system and download the
+LTS (Long Term Support) version.
 
-Run the `unbox` command using 1 of 2 ways.
+# truffle: Enter the command npm install -g truffle to install the global truffle packag
 
-```sh
-# Install Truffle globally and run `truffle unbox`
-$ npm install -g truffle
-$ truffle unbox react
-```
+## System Test Guidance
+Before testing, make sure the environment is configured and the contract is deployed
 
-```sh
-# Alternatively, run `truffle unbox` via npx
-$ npx truffle unbox react
-```
+# step1: Startup the ganache, make sure the ganache local block network on.
 
-Start the react dev server.
+# step2: In the tenancy-application/client file directory, run command ’npm start’. can get the
+webpage link in the command box.
 
-```sh
-$ cd client
-$ npm start
-```
+# step3: Open three browsers. Use the first browser to connect account A (landlord), the
+second browser to connect account B (tenant), and the third browser to connect account C
+(tenant). note: every account from the ganache local network.
 
-From there, follow the instructions on the hosted React app. It will walk you through using Truffle and Ganache to deploy the `SimpleStorage` contract, making calls to it, and sending transactions to change the contract's state.
+# step4: Begin to test the functionality based on the chapter3 of System Functional Module
+Description in the dissertation.
 
-## FAQ
 
-- __How do I use this with Ganache (or any other network)?__
-
-  The Truffle project is set to deploy to Ganache by default. If you'd like to change this, it's as easy as modifying the Truffle config file! Check out [our documentation on adding network configurations](https://trufflesuite.com/docs/truffle/reference/configuration/#networks). From there, you can run `truffle migrate` pointed to another network, restart the React dev server, and see the change take place.
-
-- __Where can I find more resources?__
-
-  This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Webpack](https://webpack.js.org). Either one would be a great place to start!
